@@ -1,0 +1,50 @@
+mqtt:
+  host: a0d7b954-emqx
+  user: frigate
+  password: Berlin
+
+detectors:
+  coral:
+    type: edgetpu
+    device: usb
+    
+cameras:
+  Outdoor:
+    ffmpeg:
+      hwaccel_args: preset-rpi-64-h264
+      inputs:
+        - path: rtsp://ITACCESS:Berlin@192.168.86.119:554/h264Preview_01_main
+          roles:
+            - detect
+    detect:
+      enabled: True
+      width: 1280
+      height: 720
+      fps: 5
+      stationary:
+        interval: 20
+        threshold: 50
+    objects:
+      track:
+        - person
+        - car
+    snapshots:
+      enabled: True
+      
+  Indoor:
+    ffmpeg:
+      inputs:
+        - path: rtsp://ITACCESS:Berlin@192.168.86.90:554/h264Preview_01_main
+          roles:
+            - detect
+    detect:
+      enabled: True
+      width: 1280
+      height: 720
+      fps: 5
+    objects:
+      track:
+        - person
+        - car
+    snapshots:
+      enabled: True
